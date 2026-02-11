@@ -1,0 +1,29 @@
+# Environment
+.env
+.env.*
+
+# Deploy keys
+.deploy_key
+.deploy_key.pub
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Backups
+*.bak
+*.backup
