@@ -47,10 +47,13 @@ jobs:
           # Install composer dependencies on server
           $SSH_CMD $DEPLOY_USER@$SERVER_IP "cd /var/www/cdemsolutions && composer install --no-dev --no-interaction 2>/dev/null || true"
 
-          # Ensure storage directory exists and is writable by www-data
-          $SSH_CMD $DEPLOY_USER@$SERVER_IP "mkdir -p /var/www/cdemsolutions/storage /var/www/cdemsolutions/public/img/uploads && chmod 775 /var/www/cdemsolutions/storage /var/www/cdemsolutions/public/img/uploads && sudo chown -R www-data:www-data /var/www/cdemsolutions/storage"
+          # Ensure storage directory exists and is writable
+          $SSH_CMD $DEPLOY_USER@$SERVER_IP "mkdir -p /var/www/cdemsolutions/storage /var/www/cdemsolutions/public/img/uploads && chmod 775 /var/www/cdemsolutions/storage /var/www/cdemsolutions/public/img/uploads"
 
           # Run database setup (idempotent)
           $SSH_CMD $DEPLOY_USER@$SERVER_IP "cd /var/www/cdemsolutions && php scripts/setup_database.php"
+
+          # Set storage ownership to www-data so PHP-FPM can write
+          $SSH_CMD $DEPLOY_USER@$SERVER_IP "sudo chown -R www-data:www-data /var/www/cdemsolutions/storage"
 
           echo "Deployed successfully!"
