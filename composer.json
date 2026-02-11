@@ -1,0 +1,7 @@
+{
+    "name": "cdem/website",
+    "description": "CDEM Solutions website",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}

@@ -77,12 +77,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         exit;
     }
 
-    $to = 'hello@cdemsolutions.com';
-    $headers = "From: $name <$email>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8";
-    $body = "Name: $name\nEmail: $email\nSubject: $subject\n\n$message";
-    $sent = @mail($to, "Contact Form: $subject", $body, $headers);
+    // Load SMTP config (server-only file, not in git)
+    $configFile = __DIR__ . '/../config.php';
+    $autoload = __DIR__ . '/../vendor/autoload.php';
 
-    echo json_encode(['success' => $sent]);
+    if (file_exists($configFile) && file_exists($autoload)) {
+        $config = require $configFile;
+        require $autoload;
+
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = $config['smtp_host'];
+            $mail->SMTPAuth = true;
+            $mail->Username = $config['smtp_user'];
+            $mail->Password = $config['smtp_pass'];
+            $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = $config['smtp_port'];
+            $mail->CharSet = 'UTF-8';
+
+            $mail->setFrom($config['smtp_from'], $config['smtp_from_name']);
+            $mail->addAddress($config['contact_to']);
+            $mail->addReplyTo($email, $name);
+
+            $mail->isHTML(false);
+            $mail->Subject = "Contact Form: $subject";
+            $mail->Body = "Name: $name\nEmail: $email\nSubject: $subject\n\n$message";
+
+            $mail->send();
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'error' => 'Mail error.']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Mail not configured.']);
+    }
     exit;
 }
 ?>
