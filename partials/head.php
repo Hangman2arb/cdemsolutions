@@ -1,7 +1,7 @@
 <?php
 $_site_url = 'https://cdemsolutions.com';
 $_current_uri = get_uri();
-$_abs_og_image = (isset($og_image) && $og_image) ? $og_image : ($seo_default_og_image ?? '/img/logo.png');
+$_abs_og_image = (isset($og_image) && $og_image) ? $og_image : ($seo_default_og_image ?? '/img/og-default.jpg');
 if (strpos($_abs_og_image, 'http') !== 0) {
     $_abs_og_image = $_site_url . $_abs_og_image;
 }

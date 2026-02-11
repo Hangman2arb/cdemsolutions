@@ -29,7 +29,7 @@ jobs:
 
           # Deploy all project files (excluding storage DB and uploads)
           rsync -avz --delete \
-            --exclude='storage/*.db' \
+            --exclude='storage/' \
             --exclude='public/img/uploads/*' \
             --exclude='.git' \
             --exclude='.github' \
@@ -47,8 +47,8 @@ jobs:
           # Install composer dependencies on server
           $SSH_CMD $DEPLOY_USER@$SERVER_IP "cd /var/www/cdemsolutions && composer install --no-dev --no-interaction 2>/dev/null || true"
 
-          # Ensure storage directory exists and is writable
-          $SSH_CMD $DEPLOY_USER@$SERVER_IP "mkdir -p /var/www/cdemsolutions/storage /var/www/cdemsolutions/public/img/uploads && chmod 775 /var/www/cdemsolutions/storage /var/www/cdemsolutions/public/img/uploads"
+          # Ensure storage directory exists and is writable by www-data
+          $SSH_CMD $DEPLOY_USER@$SERVER_IP "mkdir -p /var/www/cdemsolutions/storage /var/www/cdemsolutions/public/img/uploads && chmod 775 /var/www/cdemsolutions/storage /var/www/cdemsolutions/public/img/uploads && sudo chown -R www-data:www-data /var/www/cdemsolutions/storage"
 
           # Run database setup (idempotent)
           $SSH_CMD $DEPLOY_USER@$SERVER_IP "cd /var/www/cdemsolutions && php scripts/setup_database.php"
