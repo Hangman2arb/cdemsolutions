@@ -70,9 +70,19 @@ if (strpos($_abs_og_image, 'http') !== 0) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
 
-    <!-- Styles -->
+    <!-- Critical CSS (inline to avoid render-blocking) -->
+    <?php
+    $critical_file = __DIR__ . '/../public/css/critical.min.css';
+    if (file_exists($critical_file)):
+    ?>
+    <style><?= file_get_contents($critical_file) ?></style>
+    <?php endif; ?>
+
+    <!-- Full stylesheet (async load) -->
     <?php $css_file = file_exists(__DIR__ . '/../public/css/style.min.css') ? '/css/style.min.css' : '/css/style.css'; ?>
-    <link rel="stylesheet" href="<?= $css_file ?>?v=<?= filemtime(__DIR__ . '/../public/css/' . basename($css_file)) ?>">
+    <?php $css_ver = filemtime(__DIR__ . '/../public/css/' . basename($css_file)); ?>
+    <link rel="preload" href="<?= $css_file ?>?v=<?= $css_ver ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="<?= $css_file ?>?v=<?= $css_ver ?>"></noscript>
 
     <?php if (($template ?? '') === 'home'): ?>
     <!-- Preload LCP hero image -->

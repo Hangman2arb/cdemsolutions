@@ -169,7 +169,9 @@ $_template_html = ob_get_clean();
 
 require $base . '/partials/head.php';
 require $base . '/partials/header.php';
+echo '<main id="main-content">';
 echo $_template_html;
+echo '</main>';
 require $base . '/partials/footer.php';
 
 // --- Sitemap generator ---

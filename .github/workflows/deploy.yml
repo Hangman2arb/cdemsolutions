@@ -13,8 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Minify CSS
-        run: php scripts/minify_css.php
+      - name: Build CSS (extract critical + minify)
+        run: |
+          php scripts/extract_critical_css.php
+          php scripts/minify_css.php
 
       - name: Deploy via rsync
         env:

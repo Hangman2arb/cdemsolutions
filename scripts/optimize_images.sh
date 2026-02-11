@@ -9,10 +9,12 @@ set -euo pipefail
 
 IMG_DIR="$(cd "$(dirname "$0")/../public/img" && pwd)"
 BLOG_DIR="$IMG_DIR/blog"
-QUALITY=80
+QUALITY=65
+QUALITY_HIGH_COMPRESS=55  # For large hero/service images flagged by PageSpeed
 
 echo "=== Image Optimization ==="
 echo "Directory: $IMG_DIR"
+echo "Default quality: $QUALITY | High-compress: $QUALITY_HIGH_COMPRESS"
 
 # Check for ImageMagick
 if ! command -v magick &>/dev/null && ! command -v convert &>/dev/null; then
@@ -24,13 +26,24 @@ fi
 CONVERT="convert"
 command -v magick &>/dev/null && CONVERT="magick"
 
+# --- Helper: get quality for a file (lower for large images flagged by PageSpeed) ---
+get_quality() {
+    local basename="$1"
+    case "$basename" in
+        hero-bg.*|service-ai.*) echo "$QUALITY_HIGH_COMPRESS" ;;
+        *) echo "$QUALITY" ;;
+    esac
+}
+
 # --- Helper: convert to WebP ---
 to_webp() {
     local src="$1"
     local dst="${src%.*}.webp"
+    local q
+    q=$(get_quality "$(basename "$src")")
     if [[ ! -f "$dst" ]] || [[ "$src" -nt "$dst" ]]; then
-        $CONVERT "$src" -quality $QUALITY "$dst"
-        echo "  WebP: $(basename "$dst")"
+        $CONVERT "$src" -quality "$q" "$dst"
+        echo "  WebP: $(basename "$dst") (q=$q)"
     fi
 }
 
@@ -43,11 +56,13 @@ resize_webp() {
     local base="${src%.*}"
     local dst_orig="${base}-${suffix}.${ext}"
     local dst_webp="${base}-${suffix}.webp"
+    local q
+    q=$(get_quality "$(basename "$src")")
 
     if [[ ! -f "$dst_webp" ]] || [[ "$src" -nt "$dst_webp" ]]; then
-        $CONVERT "$src" -resize "${width}x>" -quality $QUALITY "$dst_orig"
-        $CONVERT "$dst_orig" -quality $QUALITY "$dst_webp"
-        echo "  Resized: $(basename "$dst_webp") (${width}px)"
+        $CONVERT "$src" -resize "${width}x>" -quality "$q" "$dst_orig"
+        $CONVERT "$dst_orig" -quality "$q" "$dst_webp"
+        echo "  Resized: $(basename "$dst_webp") (${width}px, q=$q)"
     fi
 }
 
