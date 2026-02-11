@@ -37,20 +37,5 @@ Thumbs.db
 /config.php
 /config.prod.php
 
-# Downloaded images (deployed via SCP, not git)
-/public/img/hero-bg.jpg
-/public/img/services-bg.jpg
-/public/img/about-bg.jpg
-/public/img/about-team.jpg
-/public/img/blog-bg.jpg
-/public/img/contact-bg.jpg
-/public/img/cta-bg.jpg
-/public/img/service-ai.jpg
-/public/img/service-software.jpg
-/public/img/service-cloud.jpg
-/public/img/service-consulting.jpg
-/public/img/service-security.jpg
-/public/img/service-data.jpg
-
 # Temporary scripts
 /scripts/download_images.php
