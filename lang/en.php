@@ -193,4 +193,8 @@ return [
         'accept' => 'Accept',
         'learn_more' => 'Learn More',
     ],
+
+    'tech_stack' => [
+        'label' => 'Technologies We Work With',
+    ],
 ];

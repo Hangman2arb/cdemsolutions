@@ -193,4 +193,8 @@ return [
         'accept' => 'Aceptar',
         'learn_more' => 'Más Info',
     ],
+
+    'tech_stack' => [
+        'label' => 'Tecnologías Con Las Que Trabajamos',
+    ],
 ];

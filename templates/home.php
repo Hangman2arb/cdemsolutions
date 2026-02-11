@@ -1,9 +1,19 @@
 <?php
 /** Home page — keeps all original sections */
+
+$service_images = [
+    'brain'    => '/img/service-ai.jpg',
+    'code'     => '/img/service-software.jpg',
+    'cloud'    => '/img/service-cloud.jpg',
+    'strategy' => '/img/service-consulting.jpg',
+    'shield'   => '/img/service-security.jpg',
+    'chart'    => '/img/service-data.jpg',
+];
 ?>
 
     <!-- ===== HERO ===== -->
     <section class="hero" id="hero">
+        <div class="hero__image" style="background-image: url('/img/hero-bg.jpg')"></div>
         <div class="hero__bg">
             <div class="hero__orb hero__orb--1"></div>
             <div class="hero__orb hero__orb--2"></div>
@@ -37,9 +47,21 @@
             <div class="services__grid">
                 <?php foreach (t('services.items') as $i => $service): ?>
                 <div class="service-card" data-animate data-delay="<?= $i * 100 ?>">
+                    <?php $img = $service_images[$service['icon']] ?? ''; ?>
+                    <?php if ($img): ?>
+                    <div class="service-card__image">
+                        <img src="<?= $img ?>" alt="<?= htmlspecialchars($service['title']) ?>" loading="lazy">
+                    </div>
+                    <div class="service-card__body">
+                        <div class="service-card__icon"><?= icon($service['icon']) ?></div>
+                        <h3 class="service-card__title"><?= $service['title'] ?></h3>
+                        <p class="service-card__text"><?= $service['description'] ?></p>
+                    </div>
+                    <?php else: ?>
                     <div class="service-card__icon"><?= icon($service['icon']) ?></div>
                     <h3 class="service-card__title"><?= $service['title'] ?></h3>
                     <p class="service-card__text"><?= $service['description'] ?></p>
+                    <?php endif; ?>
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -48,20 +70,25 @@
 
     <!-- ===== ABOUT ===== -->
     <section class="section section--alt about" id="about">
-        <div class="container about__inner">
-            <div class="about__content" data-animate>
-                <span class="section__tag"><?= t('about.tag') ?></span>
-                <h2 class="section__title"><?= t('about.title') ?> <span class="gradient-text"><?= t('about.title_highlight') ?></span></h2>
-                <p class="about__text"><?= t('about.text1') ?></p>
-                <p class="about__text"><?= t('about.text2') ?></p>
+        <div class="container about__inner--with-image">
+            <div class="about__image" data-animate>
+                <img src="/img/about-team.jpg" alt="CDEM Solutions Team" loading="lazy">
             </div>
-            <div class="about__stats" data-animate data-delay="200">
-                <?php foreach (t('about.stats') as $stat): ?>
-                <div class="stat">
-                    <span class="stat__number" data-count="<?= $stat['number'] ?>" data-suffix="<?= $stat['suffix'] ?>">0<?= $stat['suffix'] ?></span>
-                    <span class="stat__label"><?= $stat['label'] ?></span>
+            <div>
+                <div class="about__content" data-animate data-delay="100">
+                    <span class="section__tag"><?= t('about.tag') ?></span>
+                    <h2 class="section__title"><?= t('about.title') ?> <span class="gradient-text"><?= t('about.title_highlight') ?></span></h2>
+                    <p class="about__text"><?= t('about.text1') ?></p>
+                    <p class="about__text"><?= t('about.text2') ?></p>
                 </div>
-                <?php endforeach; ?>
+                <div class="about__stats" data-animate data-delay="300">
+                    <?php foreach (t('about.stats') as $stat): ?>
+                    <div class="stat">
+                        <span class="stat__number" data-count="<?= $stat['number'] ?>" data-suffix="<?= $stat['suffix'] ?>">0<?= $stat['suffix'] ?></span>
+                        <span class="stat__label"><?= $stat['label'] ?></span>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </section>
@@ -86,9 +113,13 @@
         </div>
     </section>
 
+    <!-- ===== TECH STACK ===== -->
+    <?php require __DIR__ . '/../partials/tech-stack.php'; ?>
+
     <!-- ===== CTA BANNER ===== -->
     <section class="cta-banner">
         <div class="cta-banner__bg">
+            <div class="cta-banner__bg-image" style="background-image: url('/img/cta-bg.jpg')"></div>
             <div class="hero__orb hero__orb--1"></div>
             <div class="hero__orb hero__orb--2"></div>
         </div>

@@ -18,6 +18,7 @@ $page_description = t('contact.page_description');
     <!-- ===== PAGE HEADER ===== -->
     <section class="page-header">
         <div class="page-header__bg">
+            <div class="page-header__bg-image" style="background-image: url('/img/contact-bg.jpg')"></div>
             <div class="hero__orb hero__orb--1"></div>
             <div class="hero__orb hero__orb--2"></div>
             <div class="hero__grid"></div>

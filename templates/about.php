@@ -18,6 +18,7 @@ $page_description = t('about.page_description');
     <!-- ===== PAGE HEADER ===== -->
     <section class="page-header">
         <div class="page-header__bg">
+            <div class="page-header__bg-image" style="background-image: url('/img/about-bg.jpg')"></div>
             <div class="hero__orb hero__orb--1"></div>
             <div class="hero__orb hero__orb--2"></div>
             <div class="hero__grid"></div>
@@ -35,20 +36,25 @@ $page_description = t('about.page_description');
 
     <!-- ===== ABOUT CONTENT ===== -->
     <section class="section">
-        <div class="container about__inner">
-            <div class="about__content" data-animate>
-                <span class="section__tag"><?= t('about.tag') ?></span>
-                <h2 class="section__title"><?= t('about.title') ?> <span class="gradient-text"><?= t('about.title_highlight') ?></span></h2>
-                <p class="about__text"><?= t('about.text1') ?></p>
-                <p class="about__text"><?= t('about.text2') ?></p>
+        <div class="container about__inner--with-image">
+            <div class="about__image" data-animate>
+                <img src="/img/about-team.jpg" alt="CDEM Solutions Team" loading="lazy">
             </div>
-            <div class="about__stats" data-animate data-delay="200">
-                <?php foreach (t('about.stats') as $stat): ?>
-                <div class="stat">
-                    <span class="stat__number" data-count="<?= $stat['number'] ?>" data-suffix="<?= $stat['suffix'] ?>">0<?= $stat['suffix'] ?></span>
-                    <span class="stat__label"><?= $stat['label'] ?></span>
+            <div>
+                <div class="about__content" data-animate data-delay="100">
+                    <span class="section__tag"><?= t('about.tag') ?></span>
+                    <h2 class="section__title"><?= t('about.title') ?> <span class="gradient-text"><?= t('about.title_highlight') ?></span></h2>
+                    <p class="about__text"><?= t('about.text1') ?></p>
+                    <p class="about__text"><?= t('about.text2') ?></p>
                 </div>
-                <?php endforeach; ?>
+                <div class="about__stats" data-animate data-delay="300">
+                    <?php foreach (t('about.stats') as $stat): ?>
+                    <div class="stat">
+                        <span class="stat__number" data-count="<?= $stat['number'] ?>" data-suffix="<?= $stat['suffix'] ?>">0<?= $stat['suffix'] ?></span>
+                        <span class="stat__label"><?= $stat['label'] ?></span>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </section>
@@ -76,6 +82,7 @@ $page_description = t('about.page_description');
     <!-- ===== CTA ===== -->
     <section class="cta-banner">
         <div class="cta-banner__bg">
+            <div class="cta-banner__bg-image" style="background-image: url('/img/cta-bg.jpg')"></div>
             <div class="hero__orb hero__orb--1"></div>
             <div class="hero__orb hero__orb--2"></div>
         </div>

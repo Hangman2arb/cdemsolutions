@@ -57,6 +57,7 @@ $canonical_url = 'https://cdemsolutions.com/blog/' . $post['slug'] . '/';
     <!-- ===== PAGE HEADER ===== -->
     <section class="page-header page-header--blog">
         <div class="page-header__bg">
+            <div class="page-header__bg-image" style="background-image: url('/img/blog-bg.jpg')"></div>
             <div class="hero__orb hero__orb--1"></div>
             <div class="hero__orb hero__orb--2"></div>
             <div class="hero__grid"></div>
@@ -115,6 +116,7 @@ $canonical_url = 'https://cdemsolutions.com/blog/' . $post['slug'] . '/';
     <!-- ===== CTA ===== -->
     <section class="cta-banner">
         <div class="cta-banner__bg">
+            <div class="cta-banner__bg-image" style="background-image: url('/img/cta-bg.jpg')"></div>
             <div class="hero__orb hero__orb--1"></div>
             <div class="hero__orb hero__orb--2"></div>
         </div>
