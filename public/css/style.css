@@ -1981,3 +1981,73 @@ a {
         min-height: auto;
     }
 }
+
+/* ========================================
+   BLOG — Table of Contents
+   ======================================== */
+.toc {
+    background: var(--light);
+    border-left: 4px solid var(--teal);
+    border-radius: var(--radius-sm);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+}
+
+.toc h2,
+.toc strong {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin: 0 0 12px;
+}
+
+.toc ul,
+.toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.toc li {
+    padding: 4px 0;
+}
+
+.toc a {
+    color: var(--primary-light);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.toc a:hover {
+    color: var(--teal-dark);
+    text-decoration: underline;
+}
+
+/* ========================================
+   BLOG — Call to Action Block
+   ======================================== */
+.blog-cta {
+    background: linear-gradient(135deg, var(--light) 0%, var(--light-alt) 100%);
+    border: 2px solid var(--teal);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-top: 40px;
+}
+
+.blog-cta p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text);
+}
+
+.blog-cta a {
+    color: var(--teal-dark);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.blog-cta a:hover {
+    color: var(--primary);
+}

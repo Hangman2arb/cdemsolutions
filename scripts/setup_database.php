@@ -108,6 +108,19 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS blog_post_tags (
 )");
 echo "[OK] blog_post_tags\n";
 
+// --- Blog ideas (topic tracking for content generation) ---
+$pdo->exec("CREATE TABLE IF NOT EXISTS blog_ideas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source_url TEXT NULL,
+    source_title TEXT NOT NULL,
+    source_date TEXT NULL,
+    source_site TEXT NULL,
+    target_service TEXT NULL,
+    status TEXT NOT NULL DEFAULT 'pending',
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+)");
+echo "[OK] blog_ideas\n";
+
 // --- SEO redirects ---
 $pdo->exec("CREATE TABLE IF NOT EXISTS seo_redirects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
