@@ -310,6 +310,10 @@ a {
     background: var(--primary-dark);
 }
 
+.navbar__toggle.active span {
+    background: var(--primary-dark);
+}
+
 .navbar__toggle.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
 }
@@ -1191,6 +1195,8 @@ a {
         border-color: var(--gray-lighter) !important;
         color: var(--primary) !important;
         margin-top: 16px;
+        align-self: center;
+        justify-content: center;
     }
 
     .navbar__toggle {
