@@ -12,10 +12,12 @@ return [
     ],
 
     'nav' => [
+        'home' => 'Home',
         'services' => 'Services',
         'about' => 'About',
         'why_us' => 'Why Us',
         'contact' => 'Contact',
+        'blog' => 'Blog',
     ],
 
     'hero' => [
@@ -31,36 +33,45 @@ return [
         'title' => 'Solutions That Drive',
         'title_highlight' => 'Growth',
         'subtitle' => 'End-to-end technology solutions designed to accelerate your business and keep you ahead of the curve.',
+        'page_title' => 'Our Services — CDEM Solutions',
+        'page_description' => 'Discover our full range of technology services: AI, custom software, cloud, consulting, cybersecurity, and data analytics.',
+        'page_heading' => 'Our Services',
         'items' => [
             [
                 'icon' => 'brain',
                 'title' => 'AI & Machine Learning',
                 'description' => 'Harness the power of artificial intelligence to automate processes, gain predictive insights, and stay ahead of the competition.',
+                'features' => ['Natural Language Processing', 'Predictive Analytics', 'Computer Vision', 'Process Automation'],
             ],
             [
                 'icon' => 'code',
                 'title' => 'Custom Software',
                 'description' => 'Tailor-made applications built with cutting-edge technologies to solve your unique business challenges.',
+                'features' => ['Web Applications', 'Mobile Apps', 'API Development', 'System Integration'],
             ],
             [
                 'icon' => 'cloud',
                 'title' => 'Cloud & DevOps',
                 'description' => 'Scalable, secure cloud infrastructure and CI/CD pipelines that keep your operations running smoothly.',
+                'features' => ['AWS / Azure / GCP', 'CI/CD Pipelines', 'Containerization', 'Infrastructure as Code'],
             ],
             [
                 'icon' => 'strategy',
                 'title' => 'Digital Consulting',
                 'description' => 'Expert guidance to navigate digital transformation and make technology work for your business goals.',
+                'features' => ['Digital Strategy', 'Technology Roadmap', 'Process Optimization', 'Change Management'],
             ],
             [
                 'icon' => 'shield',
                 'title' => 'Cybersecurity',
                 'description' => 'Protect your digital assets with comprehensive security audits, monitoring, and incident response.',
+                'features' => ['Security Audits', 'Penetration Testing', 'Compliance', 'Incident Response'],
             ],
             [
                 'icon' => 'chart',
                 'title' => 'Data & Analytics',
                 'description' => 'Transform raw data into actionable insights that drive smarter, data-backed business decisions.',
+                'features' => ['Business Intelligence', 'Data Warehousing', 'ETL Pipelines', 'Dashboards & Reporting'],
             ],
         ],
     ],
@@ -71,6 +82,10 @@ return [
         'title_highlight' => 'Succeed',
         'text1' => 'At CDEM Solutions, we believe technology should serve people — not the other way around. Our team of passionate engineers, designers, and strategists works alongside you to understand your challenges and craft solutions that truly make a difference.',
         'text2' => 'Whether you\'re a startup with a bold idea or an enterprise seeking digital transformation, we bring the expertise, creativity, and dedication to help you reach your goals.',
+        'page_title' => 'About Us — CDEM Solutions',
+        'page_description' => 'Learn about our mission, values, and the passionate team behind CDEM Solutions.',
+        'page_heading' => 'About Us',
+        'page_subtitle' => 'Technology should serve people — not the other way around.',
         'stats' => [
             ['number' => '150', 'suffix' => '+', 'label' => 'Projects Delivered'],
             ['number' => '50', 'suffix' => '+', 'label' => 'Happy Clients'],
@@ -119,6 +134,9 @@ return [
         'title' => 'Let\'s',
         'title_highlight' => 'Talk',
         'subtitle' => 'Tell us about your project and we\'ll get back to you within 24 hours.',
+        'page_title' => 'Contact Us — CDEM Solutions',
+        'page_description' => 'Get in touch with CDEM Solutions. Tell us about your project and we\'ll respond within 24 hours.',
+        'page_heading' => 'Get in Touch',
         'form' => [
             'name' => 'Your Name',
             'email' => 'Your Email',
@@ -136,6 +154,28 @@ return [
             'location' => 'Europe — Working Globally',
             'social_label' => 'Follow Us',
         ],
+    ],
+
+    'blog' => [
+        'page_title' => 'Blog — CDEM Solutions',
+        'page_description' => 'Insights, tutorials, and updates from the CDEM Solutions team on AI, software development, and digital strategy.',
+        'page_heading' => 'Our Blog',
+        'page_subtitle' => 'Insights, tutorials, and updates from our team.',
+        'read_more' => 'Read More',
+        'read_time' => 'read',
+        'tags' => 'Tags',
+        'share' => 'Share',
+        'filtering_by' => 'Filtering by',
+        'clear_filter' => 'Clear filter',
+        'no_posts' => 'No blog posts yet. Check back soon!',
+        'prev' => 'Previous',
+        'next' => 'Next',
+    ],
+
+    'error' => [
+        'not_found_title' => 'Page Not Found',
+        'not_found_message' => 'The page you\'re looking for doesn\'t exist or has been moved.',
+        'go_home' => 'Back to Home',
     ],
 
     'footer' => [

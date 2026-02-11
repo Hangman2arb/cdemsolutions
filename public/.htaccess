@@ -2,9 +2,7 @@ RewriteEngine On
 
 # HTTPS redirect handled by Cloudflare (Always Use HTTPS enabled)
 
-# Remove trailing slash
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)/$ /$1 [L,R=301]
+# Allow trailing slashes for clean URLs (no redirect)
 
 # Route all requests to index.php (except existing files)
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -36,6 +34,6 @@ RewriteRule ^(.*)$ index.php [L,QSA]
 </IfModule>
 
 # Block access to sensitive files
-<FilesMatch "\.(env|log|ini|bak)$">
+<FilesMatch "\.(env|log|ini|bak|db|sqlite)$">
     Require all denied
 </FilesMatch>

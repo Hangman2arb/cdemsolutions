@@ -27,3 +27,12 @@ Thumbs.db
 # Backups
 *.bak
 *.backup
+
+# Storage (SQLite DB and uploads)
+/storage/*.db
+/public/img/uploads/*
+!/public/img/uploads/.gitkeep
+
+# Server-only config
+/config.php
+/config.prod.php

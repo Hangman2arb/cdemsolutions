@@ -132,10 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMsg.classList.remove('show');
 
             const formData = new FormData(contactForm);
-            formData.append('action', 'contact');
 
             try {
-                const response = await fetch(window.location.pathname, {
+                const response = await fetch('/api/contact/', {
                     method: 'POST',
                     body: formData
                 });
@@ -174,23 +173,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Active nav link on scroll ---
+    // --- Active nav link on scroll (home page only) ---
     const sections = document.querySelectorAll('section[id]');
     const navAnchors = document.querySelectorAll('.navbar__links a[href^="#"]');
 
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id');
-                navAnchors.forEach(a => {
-                    a.classList.toggle('active', a.getAttribute('href') === '#' + id);
-                });
-            }
+    if (navAnchors.length > 0 && sections.length > 0) {
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navAnchors.forEach(a => {
+                        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+                    });
+                }
+            });
+        }, {
+            threshold: 0.3,
+            rootMargin: '-80px 0px -50% 0px'
         });
-    }, {
-        threshold: 0.3,
-        rootMargin: '-80px 0px -50% 0px'
-    });
 
-    sections.forEach(section => sectionObserver.observe(section));
+        sections.forEach(section => sectionObserver.observe(section));
+    }
 });

@@ -25,16 +25,30 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts 2>/dev/null
 
-          # Deploy public files
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
-            ./public/ \
-            $DEPLOY_USER@$SERVER_IP:/var/www/cdemsolutions/public/
+          SSH_CMD="ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no"
 
-          # Deploy lang files
+          # Deploy all project files (excluding storage DB and uploads)
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
-            ./lang/ \
-            $DEPLOY_USER@$SERVER_IP:/var/www/cdemsolutions/lang/
+            --exclude='storage/*.db' \
+            --exclude='public/img/uploads/*' \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.env' \
+            --exclude='.deploy_key*' \
+            --exclude='config.php' \
+            --exclude='vendor/' \
+            --exclude='node_modules/' \
+            -e "$SSH_CMD" \
+            ./ \
+            $DEPLOY_USER@$SERVER_IP:/var/www/cdemsolutions/
+
+          # Install composer dependencies on server
+          $SSH_CMD $DEPLOY_USER@$SERVER_IP "cd /var/www/cdemsolutions && composer install --no-dev --no-interaction 2>/dev/null || true"
+
+          # Ensure storage directory exists and is writable
+          $SSH_CMD $DEPLOY_USER@$SERVER_IP "mkdir -p /var/www/cdemsolutions/storage /var/www/cdemsolutions/public/img/uploads && chmod 775 /var/www/cdemsolutions/storage /var/www/cdemsolutions/public/img/uploads"
+
+          # Run database setup (idempotent)
+          $SSH_CMD $DEPLOY_USER@$SERVER_IP "cd /var/www/cdemsolutions && php scripts/setup_database.php"
 
           echo "Deployed successfully!"
