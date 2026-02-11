@@ -50,12 +50,33 @@
                 </table>
             </div>
 
-            <?php if ($pagination['total_pages'] > 1): ?>
+            <?php if ($pagination['total_pages'] > 1):
+                $cur = $pagination['current'];
+                $last = $pagination['total_pages'];
+                $pages = [];
+                for ($p = 1; $p <= $last; $p++) {
+                    if ($p === 1 || $p === $last || abs($p - $cur) <= 2) {
+                        $pages[] = $p;
+                    } elseif (end($pages) !== '...') {
+                        $pages[] = '...';
+                    }
+                }
+            ?>
             <nav class="admin-pagination">
-                <?php for ($p = 1; $p <= $pagination['total_pages']; $p++): ?>
-                <a href="/admin/blog/?page=<?= $p ?>&status=<?= urlencode($status) ?>"
-                   class="admin-pagination__link <?= $p === $pagination['current'] ? 'active' : '' ?>"><?= $p ?></a>
-                <?php endfor; ?>
+                <?php if ($cur > 1): ?>
+                <a href="/admin/blog/?page=<?= $cur - 1 ?>&status=<?= urlencode($status) ?>" class="admin-pagination__link admin-pagination__arrow">&lsaquo;</a>
+                <?php endif; ?>
+                <?php foreach ($pages as $p): ?>
+                    <?php if ($p === '...'): ?>
+                    <span class="admin-pagination__ellipsis">&hellip;</span>
+                    <?php else: ?>
+                    <a href="/admin/blog/?page=<?= $p ?>&status=<?= urlencode($status) ?>"
+                       class="admin-pagination__link <?= $p === $cur ? 'active' : '' ?>"><?= $p ?></a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <?php if ($cur < $last): ?>
+                <a href="/admin/blog/?page=<?= $cur + 1 ?>&status=<?= urlencode($status) ?>" class="admin-pagination__link admin-pagination__arrow">&rsaquo;</a>
+                <?php endif; ?>
             </nav>
             <?php endif; ?>
             <?php endif; ?>

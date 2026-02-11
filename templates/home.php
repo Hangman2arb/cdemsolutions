@@ -13,7 +13,7 @@ $service_images = [
 
     <!-- ===== HERO ===== -->
     <section class="hero" id="hero">
-        <div class="hero__image" style="background-image: url('/img/hero-bg.jpg')"></div>
+        <div class="hero__image"><?= picture('/img/hero-bg.jpg', 'CDEM Solutions', ['fetchpriority' => 'high']) ?></div>
         <div class="hero__bg">
             <div class="hero__orb hero__orb--1"></div>
             <div class="hero__orb hero__orb--2"></div>
@@ -50,7 +50,7 @@ $service_images = [
                     <?php $img = $service_images[$service['icon']] ?? ''; ?>
                     <?php if ($img): ?>
                     <div class="service-card__image">
-                        <img src="<?= $img ?>" alt="<?= htmlspecialchars($service['title']) ?>" loading="lazy">
+                        <?= picture($img, htmlspecialchars($service['title']), ['loading' => 'lazy', 'width' => 550]) ?>
                     </div>
                     <div class="service-card__body">
                         <div class="service-card__icon"><?= icon($service['icon']) ?></div>
@@ -72,7 +72,7 @@ $service_images = [
     <section class="section section--alt about" id="about">
         <div class="container about__inner--with-image">
             <div class="about__image" data-animate>
-                <img src="/img/about-team.jpg" alt="CDEM Solutions Team" loading="lazy">
+                <?= picture('/img/about-team.jpg', 'CDEM Solutions Team', ['loading' => 'lazy', 'width' => 600]) ?>
             </div>
             <div>
                 <div class="about__content" data-animate data-delay="100">
@@ -119,7 +119,7 @@ $service_images = [
     <!-- ===== CTA BANNER ===== -->
     <section class="cta-banner">
         <div class="cta-banner__bg">
-            <div class="cta-banner__bg-image" style="background-image: url('/img/cta-bg.jpg')"></div>
+            <div class="cta-banner__bg-image"><?= picture('/img/cta-bg.jpg', '', ['loading' => 'lazy']) ?></div>
             <div class="hero__orb hero__orb--1"></div>
             <div class="hero__orb hero__orb--2"></div>
         </div>

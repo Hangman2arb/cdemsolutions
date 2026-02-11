@@ -107,10 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const target = document.querySelector(href);
             if (target) {
                 e.preventDefault();
-                const offsetTop = target.getBoundingClientRect().top + window.scrollY - 80;
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
+                requestAnimationFrame(() => {
+                    const offsetTop = target.getBoundingClientRect().top + window.scrollY - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
                 });
             }
         });

@@ -30,8 +30,10 @@ Thumbs.db
 
 # Storage (SQLite DB and uploads)
 /storage/*.db
+/storage/image_attributions.json
 /public/img/uploads/*
 !/public/img/uploads/.gitkeep
+/public/img/blog/
 
 # Server-only config
 /config.php

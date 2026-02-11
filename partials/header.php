@@ -2,7 +2,7 @@
     <nav class="navbar" id="navbar">
         <div class="container navbar__inner">
             <a href="/" class="navbar__logo">
-                <img src="/img/logo.png" alt="CDEM Solutions" width="44" height="44">
+                <?= picture('/img/logo.png', 'CDEM Solutions', ['width' => 88, 'height' => 88]) ?>
                 <span>CDEM<strong>Solutions</strong></span>
             </a>
             <div class="navbar__links" id="navLinks">

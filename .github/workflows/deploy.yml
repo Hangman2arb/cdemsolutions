@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Minify CSS
+        run: php scripts/minify_css.php
+
       - name: Deploy via rsync
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -31,6 +34,7 @@ jobs:
           rsync -avz --delete \
             --exclude='storage/' \
             --exclude='public/img/uploads/*' \
+            --exclude='public/img/blog/' \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='.env' \

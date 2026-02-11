@@ -17,11 +17,11 @@
     --light: #f4f7fa;
     --light-alt: #eaf0f6;
     --dark: #0a1628;
-    --gray: #6c7a89;
+    --gray: #566573;
     --gray-light: #b8c4ce;
     --gray-lighter: #e0e5ec;
     --text: #1a2332;
-    --text-light: #5a6a7a;
+    --text-light: #4a5568;
     --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --radius: 12px;
     --radius-lg: 20px;
@@ -208,6 +208,8 @@ a {
 }
 
 .navbar__logo img {
+    width: 44px;
+    height: 44px;
     border-radius: 8px;
 }
 
@@ -336,16 +338,19 @@ a {
 .hero__image {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+}
+
+.hero__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .hero__image::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(10,22,40,0.72) 0%, rgba(30,77,110,0.60) 50%, rgba(42,158,147,0.50) 100%);
+    background: linear-gradient(135deg, rgba(10,22,40,0.78) 0%, rgba(30,77,110,0.68) 50%, rgba(42,158,147,0.58) 100%);
 }
 
 .hero__bg {
@@ -425,7 +430,7 @@ a {
 
 .hero__subtitle {
     font-size: clamp(1.05rem, 2.2vw, 1.3rem);
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.92);
     max-width: 620px;
     margin: 0 auto 44px;
     line-height: 1.8;
@@ -817,16 +822,19 @@ a {
 .cta-banner__bg-image {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+}
+
+.cta-banner__bg-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .cta-banner__bg-image::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(12,31,51,0.80) 0%, rgba(30,77,110,0.72) 50%, rgba(42,158,147,0.65) 100%);
+    background: linear-gradient(135deg, rgba(12,31,51,0.88) 0%, rgba(30,77,110,0.80) 50%, rgba(42,158,147,0.72) 100%);
 }
 
 .cta-banner__inner {
@@ -852,7 +860,7 @@ a {
 
 .cta-banner__subtitle {
     font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.80);
+    color: rgba(255, 255, 255, 0.90);
     margin-bottom: 36px;
     max-width: 550px;
     margin-left: auto;
@@ -1766,6 +1774,8 @@ a {
     display: flex;
     gap: 6px;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     margin-top: 48px;
 }
 
@@ -1794,6 +1804,23 @@ a {
     background: var(--teal);
     color: var(--white);
     border-color: var(--teal);
+    pointer-events: none;
+}
+
+.pagination__link--arrow {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.pagination__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 40px;
+    font-size: 14px;
+    color: var(--text-light);
+    user-select: none;
 }
 
 /* ========================================

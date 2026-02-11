@@ -63,13 +63,21 @@ if (strpos($_abs_og_image, 'http') !== 0) {
     <link rel="icon" type="image/png" href="/img/logo.png">
     <link rel="apple-touch-icon" href="/img/logo.png">
 
-    <!-- Fonts (preconnect + swap) -->
+    <!-- Fonts (preconnect + async load to avoid render-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="/css/style.css">
+    <?php $css_file = file_exists(__DIR__ . '/../public/css/style.min.css') ? '/css/style.min.css' : '/css/style.css'; ?>
+    <link rel="stylesheet" href="<?= $css_file ?>?v=<?= filemtime(__DIR__ . '/../public/css/' . basename($css_file)) ?>">
+
+    <?php if (($template ?? '') === 'home'): ?>
+    <!-- Preload LCP hero image -->
+    <link rel="preload" as="image" href="/img/hero-bg.webp" type="image/webp" fetchpriority="high">
+    <?php endif; ?>
 
     <!-- Schema.org — Organization -->
     <script type="application/ld+json">

@@ -86,6 +86,7 @@ if ($uri === '/robots.txt') {
 
 // --- Frontend bootstrap ---
 require $base . '/lib/lang.php';
+require $base . '/lib/picture.php';
 require $base . '/partials/icons.php';
 
 // --- Page routes ---

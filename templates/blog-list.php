@@ -78,19 +78,38 @@ $page_description = t('blog.page_description');
                 <?php endforeach; ?>
             </div>
 
-            <?php if (!empty($pagination)): ?>
+            <?php if (!empty($pagination) && $pagination['total_pages'] > 1):
+                $cur = $pagination['current'];
+                $last = $pagination['total_pages'];
+                $qs = !empty($active_tag) ? '&tag=' . urlencode($active_tag) : '';
+                $window = 2; // pages each side of current
+
+                // Build page list: 1 ... [window] ... last
+                $pages = [];
+                for ($p = 1; $p <= $last; $p++) {
+                    if ($p === 1 || $p === $last || abs($p - $cur) <= $window) {
+                        $pages[] = $p;
+                    } elseif (end($pages) !== '...') {
+                        $pages[] = '...';
+                    }
+                }
+            ?>
             <nav class="pagination" data-animate>
-                <?php if ($pagination['current'] > 1): ?>
-                <a href="?page=<?= $pagination['current'] - 1 ?><?= !empty($active_tag) ? '&tag=' . urlencode($active_tag) : '' ?>" class="pagination__link">&laquo; <?= t('blog.prev') ?></a>
+                <?php if ($cur > 1): ?>
+                <a href="?page=<?= $cur - 1 ?><?= $qs ?>" class="pagination__link pagination__link--arrow">&lsaquo;</a>
                 <?php endif; ?>
 
-                <?php for ($p = 1; $p <= $pagination['total_pages']; $p++): ?>
-                <a href="?page=<?= $p ?><?= !empty($active_tag) ? '&tag=' . urlencode($active_tag) : '' ?>"
-                   class="pagination__link <?= $p === $pagination['current'] ? 'active' : '' ?>"><?= $p ?></a>
-                <?php endfor; ?>
+                <?php foreach ($pages as $p): ?>
+                    <?php if ($p === '...'): ?>
+                    <span class="pagination__ellipsis">&hellip;</span>
+                    <?php else: ?>
+                    <a href="?page=<?= $p ?><?= $qs ?>"
+                       class="pagination__link <?= $p === $cur ? 'active' : '' ?>"><?= $p ?></a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
 
-                <?php if ($pagination['current'] < $pagination['total_pages']): ?>
-                <a href="?page=<?= $pagination['current'] + 1 ?><?= !empty($active_tag) ? '&tag=' . urlencode($active_tag) : '' ?>" class="pagination__link"><?= t('blog.next') ?> &raquo;</a>
+                <?php if ($cur < $last): ?>
+                <a href="?page=<?= $cur + 1 ?><?= $qs ?>" class="pagination__link pagination__link--arrow">&rsaquo;</a>
                 <?php endif; ?>
             </nav>
             <?php endif; ?>
