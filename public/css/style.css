@@ -1098,7 +1098,7 @@ a {
    ======================================== */
 .cookie-banner {
     position: fixed;
-    bottom: -200px;
+    bottom: 24px;
     left: 24px;
     right: 24px;
     max-width: 480px;
@@ -1113,11 +1113,12 @@ a {
     display: flex;
     align-items: center;
     gap: 16px;
-    transition: bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(calc(100% + 24px));
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cookie-banner.show {
-    bottom: 24px;
+    transform: translateY(0);
 }
 
 .cookie-banner p {

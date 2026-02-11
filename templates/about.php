@@ -38,7 +38,7 @@ $page_description = t('about.page_description');
     <section class="section">
         <div class="container about__inner--with-image">
             <div class="about__image" data-animate>
-                <img src="/img/about-team.jpg" alt="CDEM Solutions Team" loading="lazy">
+                <?= picture('/img/about-team.jpg', 'CDEM Solutions Team', ['loading' => 'lazy', 'width' => 600, 'height' => 338]) ?>
             </div>
             <div>
                 <div class="about__content" data-animate data-delay="100">

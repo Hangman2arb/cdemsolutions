@@ -72,7 +72,7 @@ $service_images = [
     <section class="section section--alt about" id="about">
         <div class="container about__inner--with-image">
             <div class="about__image" data-animate>
-                <?= picture('/img/about-team.jpg', 'CDEM Solutions Team', ['loading' => 'lazy', 'width' => 600]) ?>
+                <?= picture('/img/about-team.jpg', 'CDEM Solutions Team', ['loading' => 'lazy', 'width' => 600, 'height' => 338]) ?>
             </div>
             <div>
                 <div class="about__content" data-animate data-delay="100">
