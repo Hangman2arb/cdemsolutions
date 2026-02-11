@@ -30,7 +30,8 @@ command -v magick &>/dev/null && CONVERT="magick"
 get_quality() {
     local basename="$1"
     case "$basename" in
-        hero-bg.*|service-ai.*) echo "$QUALITY_HIGH_COMPRESS" ;;
+        service-ai.*) echo "35" ;;
+        hero-bg.*) echo "45" ;;
         *) echo "$QUALITY" ;;
     esac
 }
