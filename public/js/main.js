@@ -4,20 +4,20 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Navbar scroll effect ---
+    // --- Mobile menu (DOM mutation first, before any layout reads) ---
     const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const overlay = document.createElement('div');
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+
+    // --- Navbar scroll effect (read layout after DOM mutations are batched) ---
     const onScroll = () => {
         navbar.classList.toggle('scrolled', window.scrollY > 50);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-
-    // --- Mobile menu ---
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-    let overlay = document.createElement('div');
-    overlay.className = 'nav-overlay';
-    document.body.appendChild(overlay);
+    requestAnimationFrame(onScroll);
 
     const toggleMenu = () => {
         const isOpen = navLinks.classList.toggle('open');
