@@ -35,9 +35,12 @@ jobs:
             --exclude='.github' \
             --exclude='.env' \
             --exclude='.deploy_key*' \
-            --exclude='config.php' \
+            --exclude='/config.php' \
+            --exclude='/config.prod.php' \
             --exclude='vendor/' \
             --exclude='node_modules/' \
+            --exclude='public/img/*.jpg' \
+            --exclude='/scripts/download_images.php' \
             -e "$SSH_CMD" \
             ./ \
             $DEPLOY_USER@$SERVER_IP:/var/www/cdemsolutions/
