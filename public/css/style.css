@@ -1945,30 +1945,35 @@ a {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    margin: 0 12px;
-    padding: 8px 20px;
-    background: var(--white);
-    border: 1px solid var(--gray-lighter);
-    border-radius: 50px;
+    width: 120px;
+    height: 60px;
+    margin: 0 24px;
     transition: all var(--transition);
 }
 
 .tech-stack__item:hover {
-    transform: scale(1.08);
-    border-color: var(--teal);
-    box-shadow: 0 2px 12px rgba(59, 191, 178, 0.15);
+    transform: scale(1.1);
+}
+
+.tech-stack__item img {
+    width: 40px;
+    height: 40px;
+    opacity: 0.5;
+    filter: grayscale(100%);
+    transition: all var(--transition);
+}
+
+.tech-stack__item:hover img {
+    opacity: 1;
+    filter: grayscale(0%);
 }
 
 .tech-stack__item span {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--text-light);
+    margin-left: 8px;
     white-space: nowrap;
-    letter-spacing: 0.3px;
-}
-
-.tech-stack__item:hover span {
-    color: var(--teal-dark);
 }
 
 @keyframes marquee {
