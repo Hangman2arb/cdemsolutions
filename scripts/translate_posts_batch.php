@@ -90,6 +90,62 @@ function save_state(string $file, array $state): void
     file_put_contents($file, json_encode($state, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 }
 
+function repair_truncated_json(string $content): ?array
+{
+    // The JSON was truncated mid-content_html. Try to salvage it.
+    // Typical structure: {"title":"...","slug":"...","excerpt":"...","content_html":"...TRUNCATED
+
+    // Strategy: find the last complete key-value pair, close JSON
+    // First try: close the current string value and the object
+    $attempts = [
+        $content . '"}',           // truncated inside last string value
+        $content . '"}}',          // nested
+        $content . '"}}}',         // deeply nested
+    ];
+
+    foreach ($attempts as $attempt) {
+        $parsed = json_decode($attempt, true);
+        if ($parsed && isset($parsed['title'])) {
+            return $parsed;
+        }
+    }
+
+    // More aggressive: find last complete "key": "value" and close after it
+    // Look for content_html specifically
+    if (preg_match('/"content_html"\s*:\s*"/', $content)) {
+        // Find the start of content_html value
+        $pos = strpos($content, '"content_html"');
+        $prefix = substr($content, 0, $pos);
+
+        // Close JSON after the fields before content_html, adding truncated content_html
+        $truncatedHtml = substr($content, $pos);
+        // Escape any unescaped quotes and close
+        $repaired = $content . '<!-- truncated -->"}';
+        $parsed = json_decode($repaired, true);
+        if ($parsed && isset($parsed['title'])) {
+            return $parsed;
+        }
+    }
+
+    // Last resort: extract fields with regex
+    $result = [];
+    $fields = ['title', 'slug', 'excerpt', 'meta_title', 'meta_description', 'meta_keywords'];
+    foreach ($fields as $field) {
+        if (preg_match('/"' . $field . '"\s*:\s*"((?:[^"\\\\]|\\\\.)*)"/s', $content, $m)) {
+            $result[$field] = stripcslashes($m[1]);
+        }
+    }
+
+    // Extract content_html (may be truncated)
+    if (preg_match('/"content_html"\s*:\s*"((?:[^"\\\\]|\\\\.)*)/s', $content, $m)) {
+        $html = stripcslashes($m[1]);
+        // Try to close any unclosed HTML tags
+        $result['content_html'] = $html;
+    }
+
+    return !empty($result['title']) ? $result : null;
+}
+
 // ─── Translation prompt ──────────────────────────────────
 
 $systemPrompt = <<<'SYSTEM'
@@ -189,7 +245,7 @@ case 'prepare':
                     ['role' => 'system', 'content' => $systemPrompt],
                     ['role' => 'user', 'content' => $userPrompt],
                 ],
-                'max_tokens' => 16000,
+                'max_tokens' => 16384,
                 'temperature' => 0.3,
                 'response_format' => ['type' => 'json_object'],
             ],
@@ -330,9 +386,14 @@ case 'insert':
 
         $translation = json_decode($content, true);
         if (!$translation || !isset($translation['title'])) {
-            $errors++;
-            echo "  [SKIP] {$customId}: invalid JSON — " . substr($content, 0, 100) . "\n";
-            continue;
+            // Try to repair truncated JSON (output exceeded max_tokens)
+            $translation = repair_truncated_json($content);
+            if (!$translation || !isset($translation['title'])) {
+                $errors++;
+                echo "  [SKIP] {$customId}: invalid JSON — " . substr($content, 0, 100) . "\n";
+                continue;
+            }
+            echo "  [REPAIR] {$customId}: repaired truncated JSON\n";
         }
 
         // Clean slug
