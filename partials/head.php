@@ -34,7 +34,12 @@ if (strpos($_abs_og_image, 'http') !== 0) {
     <?php endif; ?>
 
     <!-- Hreflang alternates -->
-    <?php if (!empty($canonical_url)): ?>
+    <?php if (!empty($hreflang_en) && !empty($hreflang_es)): ?>
+    <!-- Blog post with translation: different URLs per language -->
+    <link rel="alternate" hreflang="en" href="<?= htmlspecialchars($hreflang_en) ?>">
+    <link rel="alternate" hreflang="es" href="<?= htmlspecialchars($hreflang_es) ?>">
+    <link rel="alternate" hreflang="x-default" href="<?= htmlspecialchars($hreflang_en) ?>">
+    <?php elseif (!empty($canonical_url)): ?>
     <link rel="alternate" hreflang="en" href="<?= htmlspecialchars($canonical_url) ?>">
     <link rel="alternate" hreflang="es" href="<?= htmlspecialchars($canonical_url) ?>">
     <link rel="alternate" hreflang="x-default" href="<?= htmlspecialchars($canonical_url) ?>">

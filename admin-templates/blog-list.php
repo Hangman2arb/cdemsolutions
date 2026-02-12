@@ -18,23 +18,33 @@
                         <tr>
                             <th>Title</th>
                             <th>Status</th>
+                            <th>Lang</th>
                             <th>Author</th>
                             <th>Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($posts as $post): ?>
+                    <?php foreach ($posts as $post):
+                        $langs = !empty($post['translated_langs']) ? explode(',', $post['translated_langs']) : [];
+                    ?>
                         <tr>
                             <td>
                                 <a href="/admin/blog/edit/<?= $post['id'] ?>/"><?= htmlspecialchars($post['title']) ?></a>
                                 <small class="text-muted">/blog/<?= htmlspecialchars($post['slug']) ?>/</small>
                             </td>
                             <td><span class="badge badge--<?= $post['status'] ?>"><?= ucfirst($post['status']) ?></span></td>
+                            <td>
+                                <span class="badge badge--published" style="font-size:0.7rem">EN</span>
+                                <?php if (in_array('es', $langs)): ?>
+                                <span class="badge badge--published" style="font-size:0.7rem">ES</span>
+                                <?php endif; ?>
+                            </td>
                             <td><?= htmlspecialchars($post['author']) ?></td>
                             <td><?= date('M j, Y', strtotime($post['created_at'])) ?></td>
                             <td class="actions-cell">
                                 <a href="/admin/blog/edit/<?= $post['id'] ?>/" class="btn btn--small btn--outline-dark">Edit</a>
+                                <a href="/admin/blog/translate/<?= $post['id'] ?>/" class="btn btn--small btn--outline-dark"><?= in_array('es', $langs) ? 'ES' : 'Translate' ?></a>
                                 <?php if ($post['status'] === 'published'): ?>
                                 <a href="/blog/<?= htmlspecialchars($post['slug']) ?>/" class="btn btn--small btn--outline-dark" target="_blank">View</a>
                                 <?php endif; ?>

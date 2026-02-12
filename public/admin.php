@@ -139,6 +139,54 @@ if ($method === 'POST') {
         exit;
     }
 
+    // Blog translation save
+    if (preg_match('#^/blog/translate/(\d+)$#', $uri, $m)) {
+        $postId = (int)$m[1];
+        $post = blog_get($postId);
+        if (!$post) {
+            flash('error', 'Post not found.');
+            header('Location: /admin/blog/');
+            exit;
+        }
+
+        $lang = 'es';
+
+        // Delete translation
+        if (!empty($_POST['delete'])) {
+            blog_translation_delete($postId, $lang);
+            flash('success', 'Translation deleted.');
+            header('Location: /admin/blog/');
+            exit;
+        }
+
+        $data = [
+            'title' => trim($_POST['title'] ?? ''),
+            'slug' => trim($_POST['slug'] ?? ''),
+            'excerpt' => trim($_POST['excerpt'] ?? ''),
+            'content_html' => $_POST['content_html'] ?? '',
+            'meta_title' => trim($_POST['meta_title'] ?? ''),
+            'meta_description' => trim($_POST['meta_description'] ?? ''),
+            'meta_keywords' => trim($_POST['meta_keywords'] ?? ''),
+        ];
+
+        if (empty($data['title'])) {
+            flash('error', 'Title is required.');
+            header('Location: /admin/blog/translate/' . $postId . '/');
+            exit;
+        }
+
+        if (empty($data['slug'])) {
+            $data['slug'] = blog_slugify($data['title']);
+        }
+
+        $data['reading_time'] = $data['content_html'] ? blog_reading_time($data['content_html']) : 5;
+
+        blog_translation_save($postId, $lang, $data);
+        flash('success', 'Translation saved.');
+        header('Location: /admin/blog/translate/' . $postId . '/');
+        exit;
+    }
+
     // Blog post delete
     if ($uri === '/blog/delete') {
         $id = (int)($_POST['id'] ?? 0);
@@ -381,6 +429,27 @@ if (preg_match('#^/blog/edit/(\w+)$#', $uri, $m)) {
     require $base . '/admin-partials/sidebar.php';
     require $base . '/admin-partials/header.php';
     require $base . '/admin-templates/blog-edit.php';
+    require $base . '/admin-partials/footer.php';
+    exit;
+}
+
+// Blog translate
+if (preg_match('#^/blog/translate/(\d+)$#', $uri, $m)) {
+    $postId = (int)$m[1];
+    $post = blog_get($postId);
+    if (!$post) {
+        flash('error', 'Post not found.');
+        header('Location: /admin/blog/');
+        exit;
+    }
+
+    $translation = blog_translation_get($postId, 'es');
+
+    $admin_page = 'blog-translate';
+    require $base . '/admin-partials/head.php';
+    require $base . '/admin-partials/sidebar.php';
+    require $base . '/admin-partials/header.php';
+    require $base . '/admin-templates/blog-translate.php';
     require $base . '/admin-partials/footer.php';
     exit;
 }

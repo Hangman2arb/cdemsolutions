@@ -5,6 +5,10 @@ $page_keywords = htmlspecialchars($post['meta_keywords'] ?? '');
 $og_type = 'article';
 $og_image = $post['featured_image'] ?? '';
 $canonical_url = 'https://cdemsolutions.com/blog/' . $post['slug'] . '/';
+
+// hreflang URLs set by index.php (if available)
+$hreflang_en = $hreflang_en ?? null;
+$hreflang_es = $hreflang_es ?? null;
 ?>
 
     <!-- Schema.org — Article -->

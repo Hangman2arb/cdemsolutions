@@ -44,6 +44,34 @@ if (preg_match('#^/set-lang/(en|es)/?$#', $uri, $langMatch)) {
     $referer = $_SERVER['HTTP_REFERER'] ?? '/';
     // Strip any old ?lang= from referer
     $referer = preg_replace('/[?&]lang=[a-z]{2}/', '', $referer);
+
+    // Smart redirect: if switching language on a blog post, redirect to the other slug
+    $refPath = parse_url($referer, PHP_URL_PATH);
+    if (preg_match('#^/blog/([^/]+)/?$#', $refPath, $blogMatch)) {
+        require_once $base . '/lib/blog.php';
+        $oldSlug = $blogMatch[1];
+        $oldLang = $newLang === 'es' ? 'en' : 'es';
+
+        if ($newLang === 'es') {
+            // Switching to ES: find ES slug for this EN post
+            $pdo = db();
+            $stmt = $pdo->prepare('SELECT bt.slug FROM blog_translations bt JOIN blog_posts p ON p.id = bt.post_id WHERE p.slug = :slug AND bt.lang = :lang');
+            $stmt->execute([':slug' => $oldSlug, ':lang' => 'es']);
+            $newSlug = $stmt->fetchColumn();
+            if ($newSlug) {
+                header('Location: /blog/' . $newSlug . '/', true, 302);
+                exit;
+            }
+        } else {
+            // Switching to EN: find EN slug for this ES translation
+            $enSlug = blog_get_en_slug_from_translation($oldSlug, 'es');
+            if ($enSlug) {
+                header('Location: /blog/' . $enSlug . '/', true, 302);
+                exit;
+            }
+        }
+    }
+
     header('Location: ' . $referer, true, 302);
     exit;
 }
@@ -119,17 +147,22 @@ if ($template === 'blog-list' || $template === 'blog-post') {
 if ($template === 'blog-list') {
     $page = max(1, intval($_GET['page'] ?? 1));
     $active_tag = trim($_GET['tag'] ?? '');
-    $result = blog_list_published($page, 9, $active_tag);
+    $result = blog_list_published($page, 9, $active_tag, $lang);
     $posts = $result['data'];
     $pagination = $result['pagination'];
 }
 
 if ($template === 'blog-post') {
-    $post = blog_get_by_slug($params['slug'] ?? '');
+    $post = blog_get_by_slug($params['slug'] ?? '', $lang);
     if (!$post || $post['status'] !== 'published') {
         http_response_code(404);
         $template = '404';
         $is_404 = true;
+    } else {
+        // Set hreflang URLs for this blog post
+        $hreflang_en = 'https://cdemsolutions.com/blog/' . ($post['en_slug'] ?? $post['slug']) . '/';
+        $translatedSlug = $post['translated_slug'] ?? blog_get_translation_slug($post['id'], 'es');
+        $hreflang_es = $translatedSlug ? 'https://cdemsolutions.com/blog/' . $translatedSlug . '/' : null;
     }
 }
 
@@ -201,18 +234,47 @@ function generate_sitemap(): string {
         $xml .= "  </url>\n";
     }
 
-    // Blog posts
+    // Blog posts with hreflang for translations
     try {
         $pdo = db();
-        $stmt = $pdo->query("SELECT slug, updated_at, published_at FROM blog_posts WHERE status = 'published' ORDER BY published_at DESC");
+        $stmt = $pdo->query("SELECT p.id, p.slug, p.updated_at, p.published_at,
+            bt.slug AS es_slug, bt.updated_at AS es_updated_at
+            FROM blog_posts p
+            LEFT JOIN blog_translations bt ON bt.post_id = p.id AND bt.lang = 'es'
+            WHERE p.status = 'published'
+            ORDER BY p.published_at DESC");
         while ($row = $stmt->fetch()) {
             $date = date('Y-m-d', strtotime($row['updated_at'] ?? $row['published_at']));
+            $enUrl = $site . '/blog/' . htmlspecialchars($row['slug']) . '/';
+
+            // English URL
             $xml .= "  <url>\n";
-            $xml .= "    <loc>{$site}/blog/" . htmlspecialchars($row['slug']) . "/</loc>\n";
+            $xml .= "    <loc>{$enUrl}</loc>\n";
             $xml .= "    <lastmod>{$date}</lastmod>\n";
             $xml .= "    <changefreq>monthly</changefreq>\n";
             $xml .= "    <priority>0.6</priority>\n";
+            if (!empty($row['es_slug'])) {
+                $esUrl = $site . '/blog/' . htmlspecialchars($row['es_slug']) . '/';
+                $xml .= "    <xhtml:link rel=\"alternate\" hreflang=\"en\" href=\"{$enUrl}\" />\n";
+                $xml .= "    <xhtml:link rel=\"alternate\" hreflang=\"es\" href=\"{$esUrl}\" />\n";
+                $xml .= "    <xhtml:link rel=\"alternate\" hreflang=\"x-default\" href=\"{$enUrl}\" />\n";
+            }
             $xml .= "  </url>\n";
+
+            // Spanish URL (if translation exists)
+            if (!empty($row['es_slug'])) {
+                $esUrl = $site . '/blog/' . htmlspecialchars($row['es_slug']) . '/';
+                $esDate = date('Y-m-d', strtotime($row['es_updated_at'] ?? $row['updated_at']));
+                $xml .= "  <url>\n";
+                $xml .= "    <loc>{$esUrl}</loc>\n";
+                $xml .= "    <lastmod>{$esDate}</lastmod>\n";
+                $xml .= "    <changefreq>monthly</changefreq>\n";
+                $xml .= "    <priority>0.6</priority>\n";
+                $xml .= "    <xhtml:link rel=\"alternate\" hreflang=\"en\" href=\"{$enUrl}\" />\n";
+                $xml .= "    <xhtml:link rel=\"alternate\" hreflang=\"es\" href=\"{$esUrl}\" />\n";
+                $xml .= "    <xhtml:link rel=\"alternate\" hreflang=\"x-default\" href=\"{$enUrl}\" />\n";
+                $xml .= "  </url>\n";
+            }
         }
     } catch (Exception $e) {
         // DB not available
