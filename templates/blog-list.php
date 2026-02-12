@@ -55,11 +55,16 @@ $page_description = t('blog.page_description');
                     </a>
                     <?php endif; ?>
                     <div class="blog-card__body">
-                        <?php if (!empty($post['tags'])): ?>
+                        <?php if (!empty($post['tags'])): $tagList = explode(',', $post['tags']); ?>
                         <div class="blog-card__tags">
-                            <?php foreach (explode(',', $post['tags']) as $tag): ?>
-                            <a href="/blog/?tag=<?= urlencode(trim($tag)) ?>" class="blog-tag"><?= htmlspecialchars(trim($tag)) ?></a>
-                            <?php endforeach; ?>
+                            <div class="blog-card__tags-track">
+                                <?php foreach ($tagList as $tag): ?>
+                                <a href="/blog/?tag=<?= urlencode(trim($tag)) ?>" class="blog-tag"><?= htmlspecialchars(trim($tag)) ?></a>
+                                <?php endforeach; ?>
+                                <?php foreach ($tagList as $tag): ?>
+                                <a href="/blog/?tag=<?= urlencode(trim($tag)) ?>" class="blog-tag" aria-hidden="true" tabindex="-1"><?= htmlspecialchars(trim($tag)) ?></a>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
                         <?php endif; ?>
                         <h2 class="blog-card__title">

@@ -1503,10 +1503,26 @@ a {
 }
 
 .blog-card__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    overflow: hidden;
     margin-bottom: 12px;
+    mask-image: linear-gradient(to right, black calc(100% - 24px), transparent);
+    -webkit-mask-image: linear-gradient(to right, black calc(100% - 24px), transparent);
+}
+
+.blog-card__tags-track {
+    display: flex;
+    gap: 6px;
+    width: max-content;
+    will-change: transform;
+}
+
+.blog-card__tags:hover .blog-card__tags-track {
+    animation: tags-marquee 6s linear infinite;
+}
+
+@keyframes tags-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
 }
 
 .blog-tag {
