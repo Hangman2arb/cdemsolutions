@@ -169,11 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (cookieAccept) {
-        cookieAccept.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            localStorage.setItem('cookies_accepted', '1');
+        cookieAccept.addEventListener('click', () => {
             if (cookieBanner) cookieBanner.classList.remove('show');
+            try { localStorage.setItem('cookies_accepted', '1'); } catch {}
         });
     }
 
