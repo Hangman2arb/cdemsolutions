@@ -36,6 +36,14 @@ if (strpos($uri, '/admin') === 0) {
     exit;
 }
 
+// --- Accept cookies endpoint ---
+if ($uri === '/accept-cookies' || $uri === '/accept-cookies/') {
+    setcookie('cookies_accepted', '1', time() + 86400 * 365, '/', '', false, true);
+    $referer = $_SERVER['HTTP_REFERER'] ?? '/';
+    header('Location: ' . $referer);
+    exit;
+}
+
 // --- Language switch endpoint (SEO-clean, no ?lang= in URLs) ---
 if (preg_match('#^/set-lang/(en|es)/?$#', $uri, $langMatch)) {
     $newLang = $langMatch[1];

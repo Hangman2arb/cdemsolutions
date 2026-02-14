@@ -158,23 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Cookie banner ---
-    const cookieBanner = document.getElementById('cookieBanner');
-    const cookieAccept = document.getElementById('cookieAccept');
-
-    if (cookieBanner && !localStorage.getItem('cookies_accepted')) {
-        setTimeout(() => {
-            cookieBanner.classList.add('show');
-        }, 2000);
-    }
-
-    if (cookieAccept) {
-        cookieAccept.addEventListener('click', () => {
-            if (cookieBanner) cookieBanner.classList.remove('show');
-            try { localStorage.setItem('cookies_accepted', '1'); } catch {}
-        });
-    }
-
     // --- Active nav link on scroll (home page only) ---
     const sections = document.querySelectorAll('section[id]');
     const navAnchors = document.querySelectorAll('.navbar__links a[href^="#"]');

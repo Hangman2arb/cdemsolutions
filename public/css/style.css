@@ -1117,15 +1117,20 @@ a {
     box-shadow: 0 12px 48px rgba(10, 22, 40, 0.15);
     padding: 20px 24px;
     z-index: 9999;
-    display: flex;
+    display: none;
     align-items: center;
     gap: 16px;
     transform: translateY(calc(100% + 24px));
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.cookie-banner.show {
-    transform: translateY(0);
+.cookie-banner--visible {
+    display: flex;
+    animation: cookie-slide-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) 2s both;
+}
+
+@keyframes cookie-slide-in {
+    from { transform: translateY(calc(100% + 24px)); }
+    to { transform: translateY(0); }
 }
 
 .cookie-banner p {

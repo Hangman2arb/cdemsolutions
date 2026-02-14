@@ -40,12 +40,14 @@
     </footer>
 
     <!-- ===== COOKIE BANNER ===== -->
-    <div class="cookie-banner" id="cookieBanner">
+    <?php if (empty($_COOKIE['cookies_accepted'])): ?>
+    <div class="cookie-banner cookie-banner--visible">
         <p><?= t('cookie.message') ?></p>
-        <div class="cookie-banner__actions">
-            <button class="btn btn--small btn--primary" id="cookieAccept"><?= t('cookie.accept') ?></button>
-        </div>
+        <form action="/accept-cookies/" method="POST" class="cookie-banner__actions">
+            <button type="submit" class="btn btn--small btn--primary"><?= t('cookie.accept') ?></button>
+        </form>
     </div>
+    <?php endif; ?>
 
     <?php $js_ver = filemtime(__DIR__ . '/../public/js/main.js'); ?>
     <script src="/js/main.js?v=<?= $js_ver ?>" defer></script>
