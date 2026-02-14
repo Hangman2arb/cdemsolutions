@@ -63,3 +63,14 @@ jobs:
           $SSH_CMD $DEPLOY_USER@$SERVER_IP "sudo chown -R www-data:www-data /var/www/cdemsolutions/storage && sudo chmod 775 /var/www/cdemsolutions/storage"
 
           echo "Deployed successfully!"
+
+      - name: Purge Cloudflare cache
+        env:
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: |
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/purge_cache" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}'
+          echo "Cloudflare cache purged!"
