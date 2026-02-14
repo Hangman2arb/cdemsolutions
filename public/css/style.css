@@ -542,6 +542,12 @@ a {
     transform: translateY(0);
 }
 
+/* Blog post content must always be visible — never hide main content */
+.blog-post__content[data-animate] {
+    opacity: 1;
+    transform: none;
+}
+
 /* ========================================
    SERVICES
    ======================================== */
@@ -696,6 +702,7 @@ a {
 
 .about__image {
     position: relative;
+    overflow: hidden;
 }
 
 .about__image img {
@@ -2053,6 +2060,25 @@ a {
     .about__image img {
         max-width: 500px;
         margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .about__inner--with-image {
+        gap: 32px;
+    }
+
+    .about__image img {
+        max-width: 100%;
+        transform: none;
+    }
+
+    .about__image:hover img {
+        transform: none;
+    }
+
+    .about__image::after {
+        display: none;
     }
 }
 

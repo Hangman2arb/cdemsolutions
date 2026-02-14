@@ -47,7 +47,8 @@
         </div>
     </div>
 
-    <script src="/js/main.js" defer></script>
+    <?php $js_ver = filemtime(__DIR__ . '/../public/js/main.js'); ?>
+    <script src="/js/main.js?v=<?= $js_ver ?>" defer></script>
     <?php if (!empty($seo_body_scripts)): ?>
     <?= $seo_body_scripts ?>
     <?php endif; ?>
