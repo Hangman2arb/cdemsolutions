@@ -191,11 +191,11 @@ case 'prepare':
 
     $pdo = db();
 
-    // Get published posts that don't have a Spanish translation yet
+    // Get published or draft posts that don't have a Spanish translation yet
     $stmt = $pdo->prepare("SELECT p.id, p.slug, p.title, p.excerpt, p.content_html,
         p.meta_title, p.meta_description, p.meta_keywords
         FROM blog_posts p
-        WHERE p.status = 'published'
+        WHERE p.status IN ('published', 'draft')
         AND p.id NOT IN (SELECT post_id FROM blog_translations WHERE lang = 'es')
         ORDER BY p.published_at DESC
         LIMIT :limit");
