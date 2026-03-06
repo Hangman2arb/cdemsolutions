@@ -14,6 +14,8 @@
                     <div class="form-group">
                         <textarea name="message" rows="5" placeholder="<?= t('contact.form.message') ?>" required></textarea>
                     </div>
+                    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+                    <div class="cf-turnstile" data-sitekey="0x4AAAAAACngEKB9nlhracU8" data-theme="light"></div>
                     <button type="submit" class="btn btn--primary btn--full">
                         <span class="btn__text"><?= t('contact.form.send') ?></span>
                         <span class="btn__loading"><?= t('contact.form.sending') ?></span>

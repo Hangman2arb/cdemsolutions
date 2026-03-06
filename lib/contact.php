@@ -13,6 +13,25 @@ function handle_contact_form(): void {
         return;
     }
 
+    // Verificar Turnstile CAPTCHA
+    $turnstileResponse = $_POST['cf-turnstile-response'] ?? '';
+    $verifyResponse = file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, stream_context_create([
+        'http' => [
+            'method' => 'POST',
+            'header' => 'Content-Type: application/x-www-form-urlencoded',
+            'content' => http_build_query([
+                'secret' => '0x4AAAAAACngED8ZyRWsQvgJfY_eMW9e1YM',
+                'response' => $turnstileResponse,
+                'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
+            ])
+        ]
+    ]));
+    $verifyResult = json_decode($verifyResponse, true);
+    if (!($verifyResult['success'] ?? false)) {
+        echo json_encode(['success' => false, 'error' => 'CAPTCHA verification failed.']);
+        return;
+    }
+
     $name = htmlspecialchars(trim($_POST['name'] ?? ''));
     $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL);
     $subject = htmlspecialchars(trim($_POST['subject'] ?? ''));
