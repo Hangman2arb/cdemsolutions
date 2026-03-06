@@ -131,6 +131,8 @@ $routes = [
     '/services'        => 'services',
     '/about'           => 'about',
     '/contact'         => 'contact',
+    '/privacy'         => 'privacy',
+    '/terms'           => 'terms',
     '/blog'            => 'blog-list',
     '/blog/{slug}'     => 'blog-post',
 ];
@@ -230,6 +232,8 @@ function generate_sitemap(): string {
         ['/services/', '0.8', 'monthly'],
         ['/about/', '0.7', 'monthly'],
         ['/contact/', '0.7', 'monthly'],
+        ['/privacy/', '0.3', 'yearly'],
+        ['/terms/', '0.3', 'yearly'],
         ['/blog/', '0.9', 'daily'],
     ];
 

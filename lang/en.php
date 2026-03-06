@@ -172,6 +172,22 @@ return [
         'next' => 'Next',
     ],
 
+    'privacy' => [
+        'page_title' => 'Privacy Policy — CDEM Solutions',
+        'page_description' => 'Read our Privacy Policy to understand how CDEM Solutions collects, uses, and protects your personal information.',
+        'page_heading' => 'Privacy Policy',
+        'page_subtitle' => 'Your privacy is important to us.',
+        'breadcrumb' => 'Privacy Policy',
+    ],
+
+    'terms' => [
+        'page_title' => 'Terms of Service — CDEM Solutions',
+        'page_description' => 'Read the Terms of Service for using the CDEM Solutions website and services.',
+        'page_heading' => 'Terms of Service',
+        'page_subtitle' => 'Please read these terms carefully before using our services.',
+        'breadcrumb' => 'Terms of Service',
+    ],
+
     'error' => [
         'not_found_title' => 'Page Not Found',
         'not_found_message' => 'The page you\'re looking for doesn\'t exist or has been moved.',

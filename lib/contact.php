@@ -55,7 +55,7 @@ function handle_contact_form(): void {
         $smtpPort = (int)(get_smtp_setting('smtp_port') ?: 587);
         $smtpFrom = get_smtp_setting('smtp_from') ?: 'noreply@cdemsolutions.com';
         $smtpFromName = get_smtp_setting('smtp_from_name') ?: 'CDEM Solutions';
-        $contactTo = get_smtp_setting('contact_to') ?: 'hello@cdemsolutions.com';
+        $contactTo = get_smtp_setting('contact_to') ?: 'hello@iprscan.com';
 
         if ($smtpHost && $smtpUser && $smtpPass) {
             try {
@@ -74,7 +74,7 @@ function handle_contact_form(): void {
                 $mail->addReplyTo($email, $name);
 
                 $mail->isHTML(false);
-                $mail->Subject = "Contact Form: $subject";
+                $mail->Subject = "[CDEMSolutions Contact] $subject";
                 $mail->Body = "Name: $name\nEmail: $email\nSubject: $subject\n\n$message";
 
                 $mail->send();
@@ -103,7 +103,7 @@ function handle_contact_form(): void {
                     $mail->addReplyTo($email, $name);
 
                     $mail->isHTML(false);
-                    $mail->Subject = "Contact Form: $subject";
+                    $mail->Subject = "[CDEMSolutions Contact] $subject";
                     $mail->Body = "Name: $name\nEmail: $email\nSubject: $subject\n\n$message";
 
                     $mail->send();

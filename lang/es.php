@@ -172,6 +172,22 @@ return [
         'next' => 'Siguiente',
     ],
 
+    'privacy' => [
+        'page_title' => 'Política de Privacidad — CDEM Solutions',
+        'page_description' => 'Lee nuestra Política de Privacidad para entender cómo CDEM Solutions recopila, utiliza y protege tu información personal.',
+        'page_heading' => 'Política de Privacidad',
+        'page_subtitle' => 'Tu privacidad es importante para nosotros.',
+        'breadcrumb' => 'Política de Privacidad',
+    ],
+
+    'terms' => [
+        'page_title' => 'Términos de Servicio — CDEM Solutions',
+        'page_description' => 'Lee los Términos de Servicio para el uso del sitio web y servicios de CDEM Solutions.',
+        'page_heading' => 'Términos de Servicio',
+        'page_subtitle' => 'Por favor lee estos términos cuidadosamente antes de usar nuestros servicios.',
+        'breadcrumb' => 'Términos de Servicio',
+    ],
+
     'error' => [
         'not_found_title' => 'Página No Encontrada',
         'not_found_message' => 'La página que buscas no existe o ha sido movida.',

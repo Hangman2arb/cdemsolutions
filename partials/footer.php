@@ -32,8 +32,8 @@
             <div class="container footer__bottom-inner">
                 <span><?= t('footer.copyright') ?></span>
                 <div class="footer__legal">
-                    <a href="#"><?= t('footer.privacy') ?></a>
-                    <a href="#"><?= t('footer.terms') ?></a>
+                    <a href="/privacy/"><?= t('footer.privacy') ?></a>
+                    <a href="/terms/"><?= t('footer.terms') ?></a>
                 </div>
             </div>
         </div>
